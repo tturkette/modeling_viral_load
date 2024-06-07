@@ -18,7 +18,7 @@ def load_data(url):
 def fit_model(time_data, viral_load_data):
     initial_guess = [1, 0.1, 0.5, 0.05]
     try:
-        params, cov_matrix = curve_fit(bi_exponential_decay, time_data, viral_load_data, p0=initial_guess)
+        params, cov_matrix = curve_fit(bi_exponential_decay, time_data, viral_load_data, p0=initial_guess) # pylint: disable=W0632
     except RuntimeError as e:
         print(f"Error in curve fitting: {e}")
         raise
@@ -46,6 +46,6 @@ if __name__ == "__main__":
     data_frame = load_data(data_url)
     time_series = data_frame["time_in_days"].values
     viral_load_series = data_frame["viral_load"].values
-    [a, alpha, b, beta], cov_matrix = fit_model(time_series, viral_load_series)
-    print(f"A: {a}, alpha: {alpha}, B: {b}, beta: {beta}")
-    plot_results(time_series, viral_load_series, [a,alpha, b, beta])
+    [fitted_a, fitted_alpha, fitted_b, fitted_beta], pcov = fit_model(time_series, viral_load_series)
+    print(f"A: {fitted_a}, alpha: {fitted_alpha}, B: {fitted_b}, beta: {fitted_beta}")
+    plot_results(time_series, viral_load_series, [fitted_a,fitted_alpha, fitted_b, fitted_beta])
