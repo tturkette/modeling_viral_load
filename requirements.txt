@@ -1,0 +1,8 @@
+pylint
+pytest
+black
+pytest-cov
+numpy
+pandas
+scipy
+matplotlib
