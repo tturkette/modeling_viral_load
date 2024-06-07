@@ -18,20 +18,20 @@ def load_data(url):
 def fit_model(time_data, viral_load_data):
     initial_guess = [1, 0.1, 0.5, 0.05]
     try:
-        popt, pcov = curve_fit(bi_exponential_decay, time_data, viral_load_data, p0=initial_guess)
+        params, cov_matrix = curve_fit(bi_exponential_decay, time_data, viral_load_data, p0=initial_guess)
     except RuntimeError as e:
         print(f"Error in curve fitting: {e}")
         raise
     except Exception as e:
         print(f"Unexpected error in curve fitting: {e}")
         raise
-    return popt
+    return params
 
-def plot_results(time_data, viral_load_data, popt):
+def plot_results(time_data, viral_load_data, fitted_params):
     try:
         plt.figure(figsize=(10, 6))
         plt.scatter(time_data, viral_load_data, label='Data')
-        plt.plot(time_data, bi_exponential_decay(time_data, *popt), label='Fitted Curve', color='red')
+        plt.plot(time_data, bi_exponential_decay(time_data, *fitted_params), label='Fitted Curve', color='red')
         plt.legend()
         plt.xlabel('Time (t)')
         plt.ylabel('Viral Load (V)')
@@ -43,9 +43,9 @@ def plot_results(time_data, viral_load_data, popt):
 
 if __name__ == "__main__":
     data_url = "https://raw.githubusercontent.com/ComputationalModeling/IPML-Data/master/01HIVseries/HIVseries.csv"
-    data = load_data(data_url)
-    time_data = data["time_in_days"].values
-    viral_load_data = data["viral_load"].values
-    popt = fit_model(time_data, viral_load_data)
-    print(f"A: {popt[0]}, alpha: {popt[1]}, B: {popt[2]}, beta: {popt[3]}")
-    plot_results(time_data, viral_load_data, popt)
+    data_frame = load_data(data_url)
+    time_series = data_frame["time_in_days"].values
+    viral_load_series = data_frame["viral_load"].values
+    fitted_params = fit_model(time_series, viral_load_series)
+    print(f"A: {fitted_params[0]}, alpha: {fitted_params[1]}, B: {fitted_params[2]}, beta: {fitted_params[3]}")
+    plot_results(time_series, viral_load_series, fitted_params)
