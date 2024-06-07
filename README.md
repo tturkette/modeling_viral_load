@@ -1,3 +1,5 @@
+[![Python application test with Github Actions](https://github.com/tturkette/modeling_viral_load/actions/workflows/main.yml/badge.svg)](https://github.com/tturkette/modeling_viral_load/actions/workflows/main.yml)
+
 # Overview:
 
 There are many methods to model viral load after treatment with a drug. One of these is using the bi-directional decay equation:
