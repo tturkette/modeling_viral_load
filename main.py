@@ -25,7 +25,7 @@ def fit_model(time_data, viral_load_data):
     except Exception as e:
         print(f"Unexpected error in curve fitting: {e}")
         raise
-    return params
+    return params, cov_matrix
 
 def plot_results(time_data, viral_load_data, fitted_params):
     try:
@@ -46,6 +46,6 @@ if __name__ == "__main__":
     data_frame = load_data(data_url)
     time_series = data_frame["time_in_days"].values
     viral_load_series = data_frame["viral_load"].values
-    fitted_params = fit_model(time_series, viral_load_series)
-    print(f"A: {fitted_params[0]}, alpha: {fitted_params[1]}, B: {fitted_params[2]}, beta: {fitted_params[3]}")
-    plot_results(time_series, viral_load_series, fitted_params)
+    [a, alpha, b, beta], cov_matrix = fit_model(time_series, viral_load_series)
+    print(f"A: {a}, alpha: {alpha}, B: {b}, beta: {beta}")
+    plot_results(time_series, viral_load_series, [a,alpha, b, beta])
