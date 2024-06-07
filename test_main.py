@@ -21,7 +21,7 @@ def test_curve_fitting():
     viral_load_series = data_frame["viral_load"].values
 
     # Fit the model to the data
-    fitted_params = fit_model(time_series, viral_load_series)
+    fitted_params, pcov = fit_model(time_series, viral_load_series)
 
     # Check that the fitted parameters are reasonable
     assert len(fitted_params) == 4, "There should be 4 fitted parameters"
